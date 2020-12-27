@@ -1,0 +1,23 @@
+#blog-body {
+  line-height: 1.5;
+  h1 {
+    @apply text-3xl font-bold my-2;
+  }
+  h2 {
+    @apply text-2xl font-bold mt-6 mb-2 border-b border-secondary;
+  }
+  h3 {
+    @apply text-xl font-bold mt-4 mb-2;
+  }
+  h4 {
+    @apply text-lg font-bold mt-4 mb-2;
+  }
+  a:hover {
+    @apply text-neutral border-b border-white;
+  }
+  blockquote {
+    border-left: 4px solid #ccc;
+    background-color: #516c8d;
+    @apply italic;
+  }
+}
