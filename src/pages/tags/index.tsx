@@ -8,7 +8,7 @@ import { AllTagsList } from "../../components/page/tags/AllTagsList";
 
 const TagsPage: NextPage = () => {
   const { data, error } = useGetTags();
-  console.log(data);
+  console.log(error);
   return (
     <>
       <CustomHead title="タグ一覧" />

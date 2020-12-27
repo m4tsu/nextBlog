@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { Paths, TypedLink } from "../../../routes";
 
 export const ResourceNotFound = () => {

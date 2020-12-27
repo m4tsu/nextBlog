@@ -1,5 +1,5 @@
 import Link, { LinkProps } from "next/link";
-import { FC, ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 
 // ----------------
 
