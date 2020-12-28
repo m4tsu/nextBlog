@@ -13,10 +13,8 @@ import { CustomHead } from "../components/layouts/CustomHead";
 const Post = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { data, error } = useGetPost(id as string);
+  const { data } = useGetPost(id as string);
 
-  console.log("error", error);
-  console.log(data);
   if (!data) {
     return <Loading loading={!data} />;
   }

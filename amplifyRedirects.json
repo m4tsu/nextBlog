@@ -1,0 +1,32 @@
+[
+  {
+    "source": "/",
+    "target": "/",
+    "status": "200",
+    "condition": null
+  },
+  {
+    "source": "/about",
+    "target": "/about",
+    "status": "200",
+    "condition": null
+  },
+  {
+    "source": "/tags",
+    "target": "/tags",
+    "status": "200",
+    "condition": null
+  },
+  {
+    "source": "/tags/<name>",
+    "target": "/tags/[name]",
+    "status": "200",
+    "condition": null
+  },
+  {
+    "source": "/<id>",
+    "target": "/[id]",
+    "status": "200",
+    "condition": null
+  }
+]

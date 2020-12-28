@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
 import Head from "next/head";
-import { Container } from "./Container";
 import { Main } from "./Main";
 import { HeaderNav } from "./HeaderNav";
 

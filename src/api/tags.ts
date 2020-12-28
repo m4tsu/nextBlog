@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import { axios } from "../lib/axiosInstance";
-import { MCMSPosts, MCMSTags, Tag } from "../types/API/post";
+import { MCMSPosts, MCMSTags } from "../types/API/post";
 
 export const useGetTags = () => {
   return useSWR(`/tags`, (url) => {
@@ -20,7 +20,6 @@ export const useGetPostsByTagName = (tagName: string) => {
       .get<MCMSTags>(url)
       .then((res) => res.data)
       .then((data) => {
-        console.log(data);
         if (data.contents.length === 0) {
           throw new Error("タグが見つかりません。");
         } else {

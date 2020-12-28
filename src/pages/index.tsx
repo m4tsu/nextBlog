@@ -3,10 +3,9 @@ import { useGetPosts } from "../api/posts";
 import { Loading } from "../components/commons/Loading";
 import { PageTitle } from "../components/commons/PageTitle";
 import { PostList } from "../components/commons/PostList";
-import { CustomHead } from "../components/layouts/CustomHead";
 
 const PostsPage = () => {
-  const { data, error } = useGetPosts();
+  const { data } = useGetPosts();
   return (
     <>
       {/* <CustomHead title="記事一覧" /> */}
