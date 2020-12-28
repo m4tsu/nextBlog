@@ -20,7 +20,6 @@ export const useGetPostsByTagName = (tagName: string) => {
       .get<MCMSTags>(url)
       .then((res) => res.data)
       .then((data) => {
-        console.log(data);
         if (data.contents.length === 0) {
           throw new Error("タグが見つかりません。");
         } else {

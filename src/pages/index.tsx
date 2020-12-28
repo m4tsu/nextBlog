@@ -5,8 +5,7 @@ import { PageTitle } from "../components/commons/PageTitle";
 import { PostList } from "../components/commons/PostList";
 
 const PostsPage = () => {
-  const { data, error } = useGetPosts();
-  console.log(error);
+  const { data } = useGetPosts();
   return (
     <>
       {/* <CustomHead title="記事一覧" /> */}
