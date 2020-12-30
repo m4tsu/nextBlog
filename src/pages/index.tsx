@@ -12,6 +12,7 @@ type Props = {
 
 const Page: NextPage<Props> = ({ posts }) => {
   // const { data } = useGetPosts();
+  console.log(posts);
   return (
     <>
       {/* <CustomHead title="記事一覧" /> */}
