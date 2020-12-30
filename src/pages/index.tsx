@@ -26,7 +26,7 @@ const Page: NextPage<Props> = ({ posts }) => {
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const posts = (await fetchAllPosts()).contents;
   console.log(posts);
-  return { props: { posts }, revalidate: 300 };
+  return { props: { posts }, revalidate: 180 };
 };
 
 export default Page;
