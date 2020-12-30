@@ -17,14 +17,14 @@ type Props = {
 
 const TagPage: NextPage<Props> = ({ posts, error }) => {
   const router = useRouter();
-  console.log("errors", error);
+  console.log("error", error);
   console.log("posts", posts);
   console.log("isfallback", router.isFallback);
 
   if (!router.isFallback && !posts) {
     return <Error statusCode={404} />;
   }
-  // const { name } = router.query;
+  const { name } = router.query;
   // const { data, error } = useGetPostsByTagName(name as string);
 
   // if (error !== undefined) {
@@ -57,9 +57,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<Props, { name: string }> = async ({
   params,
 }) => {
+  console.log(params);
   try {
-    const tag = (await fetchTagByName(params?.name as string)).contents[0];
-    const posts = (await fetchPostByTag(tag.id)).contents;
+    const data = await fetchTagByName(params?.name as string).then((data) => {
+      return fetchPostByTag(data.contents[0].id);
+    });
+    const posts = data.contents;
 
     return { props: { posts }, revalidate: 180 };
   } catch (err) {
