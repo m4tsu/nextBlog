@@ -11,18 +11,21 @@ import { CustomHead } from "@/components/layouts/CustomHead";
 import { NextPage } from "next";
 import { Post } from "@/types/API/post";
 import { fetchPost } from "@/api/fetchers/posts";
-import Error from "next/error";
+import { ResourceNotFound } from "@/components/page/error/ResourceNotFound";
 
 type Props = {
   post?: Post;
   highlightedContent?: string;
-  error?: any;
+  error?: string;
 };
 const Page: NextPage<Props> = ({ post, highlightedContent, error }) => {
   const router = useRouter();
-  console.log(error);
+  if (error) {
+    console.log(error);
+  }
+
   if (!router.isFallback && (!post || !highlightedContent)) {
-    return <Error statusCode={404} />;
+    return <ResourceNotFound />;
   }
 
   if (!post || !highlightedContent) {
@@ -80,7 +83,7 @@ export const getStaticProps: GetStaticProps<Props, { id: string }> = async ({
     return { props: { post, highlightedContent }, revalidate: 180 };
   } catch (err) {
     console.log(err);
-    return { props: { error: err }, revalidate: 180 };
+    return { props: { error: err.message }, revalidate: 180 };
   }
 };
 

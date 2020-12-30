@@ -8,7 +8,7 @@ import { CustomHead } from "@/components/layouts/CustomHead";
 import { fetchTagByName } from "@/api/fetchers/tags";
 import { fetchPostByTag } from "@/api/fetchers/posts";
 import { Post } from "@/types/API/post";
-import Error from "next/error";
+import { ResourceNotFound } from "@/components/page/error/ResourceNotFound";
 
 type Props = {
   posts?: Post[];
@@ -17,10 +17,12 @@ type Props = {
 
 const Page: NextPage<Props> = ({ posts, error }) => {
   const router = useRouter();
-  console.log(error);
+  if (error) {
+    console.log(error);
+  }
 
   if (!router.isFallback && !posts) {
-    return <Error statusCode={404} />;
+    return <ResourceNotFound />;
   }
   const { name } = router.query;
 
