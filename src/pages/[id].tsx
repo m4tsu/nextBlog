@@ -12,6 +12,7 @@ import { CustomHead } from "@/components/layouts/CustomHead";
 import { NextPage } from "next";
 import { Post } from "@/types/API/post";
 import { fetchPost } from "@/api/fetchers/posts";
+import Error from "next/error";
 // import { ParsedUrlQuery } from "querystring";
 
 type Props = {
@@ -23,13 +24,18 @@ const Page: NextPage<Props> = ({ post, highlightedContent, errors }) => {
   const router = useRouter();
   // const { id } = router.query;
   // const { data } = useGetPost(id as string);
-  console.log(post);
+  console.log("errors", errors);
+  console.log("post", post);
   console.log(highlightedContent);
+  console.log("isfallback", router.isFallback);
   // const data = post;
 
-  if (router.isFallback || !post || !highlightedContent) {
-    console.log(post);
-    console.log(errors);
+  if ((!router.isFallback && !post) || !highlightedContent) {
+    // return <Loading loading={true} />;
+    return <Error statusCode={404} />;
+  }
+
+  if (!post) {
     return <Loading loading={true} />;
   }
 
@@ -103,7 +109,7 @@ export const getStaticProps: GetStaticProps<Props, { id: string }> = async ({
     return { props: { post, highlightedContent }, revalidate: 180 };
   } catch (err) {
     console.log(err);
-    return { props: { errors: err.message }, revalidate: 180 };
+    return { props: { errors: err }, revalidate: 180 };
   }
 
   // return { props: { post, highlightedContent }, revalidate: 300 };
