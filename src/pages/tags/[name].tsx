@@ -15,8 +15,9 @@ type Props = {
   error?: any;
 };
 
-const TagPage: NextPage<Props> = ({ posts, error }) => {
+const Page: NextPage<Props> = ({ posts, error }) => {
   const router = useRouter();
+  console.log(error);
 
   if (!router.isFallback && !posts) {
     return <Error statusCode={404} />;
@@ -61,4 +62,4 @@ export const getStaticProps: GetStaticProps<Props, { name: string }> = async ({
   }
 };
 
-export default TagPage;
+export default Page;
