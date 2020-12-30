@@ -4,7 +4,6 @@ import cheerio from "cheerio";
 import hljs from "highlight.js";
 import "highlight.js/styles/hybrid.css";
 import { useRouter } from "next/router";
-// import { useGetPost } from "@/api/posts";
 import { toDate } from "@/lib/moment";
 import { TagsList } from "@/components/page/posts/TagsList";
 import { Loading } from "@/components/commons/Loading";
@@ -13,7 +12,6 @@ import { NextPage } from "next";
 import { Post } from "@/types/API/post";
 import { fetchPost } from "@/api/fetchers/posts";
 import Error from "next/error";
-// import { ParsedUrlQuery } from "querystring";
 
 type Props = {
   post?: Post;
@@ -22,32 +20,18 @@ type Props = {
 };
 const Page: NextPage<Props> = ({ post, highlightedContent, errors }) => {
   const router = useRouter();
-  // const { id } = router.query;
-  // const { data } = useGetPost(id as string);
   console.log("errors", errors);
   console.log("post", post);
   console.log(highlightedContent);
   console.log("isfallback", router.isFallback);
-  // const data = post;
 
-  if ((!router.isFallback && !post) || !highlightedContent) {
-    // return <Loading loading={true} />;
+  if (!router.isFallback && (!post || !highlightedContent)) {
     return <Error statusCode={404} />;
   }
 
-  if (!post) {
+  if (!post || !highlightedContent) {
     return <Loading loading={true} />;
   }
-
-  // コードブロックにハイライト用クラスを付与
-  // const $ = cheerio.load(post.content);
-  // $("pre code").each((_, elm) => {
-  //   const result = hljs.highlightAuto($(elm).text());
-  //   $(elm).html(result.value);
-  //   $(elm).addClass("hljs");
-  // });
-
-  // const highlightedContent = $.html();
 
   return (
     <>
@@ -77,20 +61,10 @@ const Page: NextPage<Props> = ({ post, highlightedContent, errors }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Get the paths we want to pre-render based on users
   const paths: any[] = [];
 
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
   return { paths, fallback: true };
 };
-
-// type StaticPropsResult = {
-//   post?: Post;
-//   errors?: any;
-//   // highlightedContent: string;
-//   // errors?: any;
-// };
 
 export const getStaticProps: GetStaticProps<Props, { id: string }> = async ({
   params,
@@ -98,6 +72,7 @@ export const getStaticProps: GetStaticProps<Props, { id: string }> = async ({
   try {
     const post = await fetchPost(params?.id as string);
 
+    // コードブロックのスタイリング
     const $ = cheerio.load(post.content);
     $("pre code").each((_, elm) => {
       const result = hljs.highlightAuto($(elm).text());
@@ -109,10 +84,8 @@ export const getStaticProps: GetStaticProps<Props, { id: string }> = async ({
     return { props: { post, highlightedContent }, revalidate: 180 };
   } catch (err) {
     console.log(err);
-    return { props: { errors: err }, revalidate: 180 };
+    return { props: { errors: err.message }, revalidate: 180 };
   }
-
-  // return { props: { post, highlightedContent }, revalidate: 300 };
 };
 
 export default Page;
