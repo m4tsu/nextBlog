@@ -3,7 +3,7 @@ import styles from "./[id].module.scss";
 import cheerio from "cheerio";
 import hljs from "highlight.js";
 import "highlight.js/styles/hybrid.css";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 // import { useGetPost } from "@/api/posts";
 import { toDate } from "@/lib/moment";
 import { TagsList } from "@/components/page/posts/TagsList";
@@ -19,15 +19,15 @@ type Props = {
   highlightedContent: string;
 };
 const Page: NextPage<Props> = ({ post, highlightedContent }) => {
-  // const router = useRouter();
+  const router = useRouter();
   // const { id } = router.query;
   // const { data } = useGetPost(id as string);
   console.log(post);
   console.log(highlightedContent);
   // const data = post;
 
-  if (!post) {
-    return <Loading loading={!post} />;
+  if (router.isFallback) {
+    return <Loading loading={true} />;
   }
 
   // コードブロックにハイライト用クラスを付与
