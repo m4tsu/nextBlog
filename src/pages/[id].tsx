@@ -15,10 +15,11 @@ import { fetchPost } from "@/api/fetchers/posts";
 // import { ParsedUrlQuery } from "querystring";
 
 type Props = {
-  post: Post;
-  highlightedContent: string;
+  post?: Post;
+  highlightedContent?: string;
+  errors?: any;
 };
-const Page: NextPage<Props> = ({ post, highlightedContent }) => {
+const Page: NextPage<Props> = ({ post, highlightedContent, errors }) => {
   const router = useRouter();
   // const { id } = router.query;
   // const { data } = useGetPost(id as string);
@@ -26,7 +27,9 @@ const Page: NextPage<Props> = ({ post, highlightedContent }) => {
   console.log(highlightedContent);
   // const data = post;
 
-  if (router.isFallback) {
+  if (router.isFallback || !post || !highlightedContent) {
+    console.log(post);
+    console.log(errors);
     return <Loading loading={true} />;
   }
 
@@ -76,43 +79,34 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: true };
 };
 
-// This function gets called at build time on server-side.
-// It won't be called on client-side, so you can even do
-// direct database queries.
+// type StaticPropsResult = {
+//   post?: Post;
+//   errors?: any;
+//   // highlightedContent: string;
+//   // errors?: any;
+// };
 
-type StaticPropsResult = {
-  post: Post;
-  highlightedContent: string;
-  // errors?: any;
-};
+export const getStaticProps: GetStaticProps<Props, { id: string }> = async ({
+  params,
+}) => {
+  try {
+    const post = await fetchPost(params?.id as string);
 
-export const getStaticProps: GetStaticProps<
-  StaticPropsResult,
-  { id: string }
-> = async ({ params }) => {
-  // try {
-  //   // const id = params?.id;
-  //   const post = await fetchPost(params?.id as string)
-  //   // By returning { props: item }, the StaticPropsDetail component
-  //   // will receive `item` as a prop at build time
-  //   return { props: { post }, revalidate: 300 };
-  // } catch (err) {
-  //   console.log(err)
-  //   return { props: { errors: err.message }, revalidate: 300 };
-  // }
-  const post = await fetchPost(params?.id as string);
-  // By returning { props: item }, the StaticPropsDetail component
-  // will receive `item` as a prop at build time
+    const $ = cheerio.load(post.content);
+    $("pre code").each((_, elm) => {
+      const result = hljs.highlightAuto($(elm).text());
+      $(elm).html(result.value);
+      $(elm).addClass("hljs");
+    });
+    const highlightedContent = $.html();
 
-  const $ = cheerio.load(post.content);
-  $("pre code").each((_, elm) => {
-    const result = hljs.highlightAuto($(elm).text());
-    $(elm).html(result.value);
-    $(elm).addClass("hljs");
-  });
+    return { props: { post, highlightedContent }, revalidate: 180 };
+  } catch (err) {
+    console.log(err);
+    return { props: { errors: err.message }, revalidate: 180 };
+  }
 
-  const highlightedContent = $.html();
-  return { props: { post, highlightedContent }, revalidate: 300 };
+  // return { props: { post, highlightedContent }, revalidate: 300 };
 };
 
 export default Page;
