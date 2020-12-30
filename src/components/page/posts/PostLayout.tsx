@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Tag } from "../../../types/API/post";
+import { Tag } from "@/types/API/post";
 
 type Props = {
   tags?: Tag[];

@@ -1,6 +1,8 @@
 import useSWR from "swr";
-import { axios } from "../lib/axiosInstance";
-import { MCMSPosts, Post } from "../types/API/post";
+import { axios } from "@/lib/axiosInstance";
+import { MCMSPosts, Post } from "@/types/API/post";
+
+// SSGでは使わない
 
 export const useGetPosts = () => {
   return useSWR(`/posts`, (url) => {

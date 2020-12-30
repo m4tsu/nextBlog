@@ -1,4 +1,4 @@
-import { PageTitle } from "../components/commons/PageTitle";
+import { PageTitle } from "@/components/commons/PageTitle";
 
 const AboutPage = (): JSX.Element => (
   <>

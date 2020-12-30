@@ -1,4 +1,4 @@
-import { Paths, TypedLink } from "../../../routes";
+import { Paths, TypedLink } from "@/routes";
 
 export const ResourceNotFound = () => {
   return (

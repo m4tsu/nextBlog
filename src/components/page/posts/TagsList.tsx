@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { AiOutlineTags } from "react-icons/ai";
-import { Paths, TypedLink } from "../../../routes";
-import { Tag } from "../../../types/API/post";
+import { Paths, TypedLink } from "@/routes";
+import { Tag } from "@/types/API/post";
 
 type Props = {
   tags: Tag[];

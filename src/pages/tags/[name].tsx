@@ -1,12 +1,12 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { AiOutlineTag } from "react-icons/ai";
-import { useGetPostsByTagName } from "../../api/tags";
-import { Loading } from "../../components/commons/Loading";
-import { PageTitle } from "../../components/commons/PageTitle";
-import { PostList } from "../../components/commons/PostList";
-import { CustomHead } from "../../components/layouts/CustomHead";
-import { ResourceNotFound } from "../../components/page/error/ResourceNotFound";
+import { useGetPostsByTagName } from "@/api/tags";
+import { Loading } from "@/components/commons/Loading";
+import { PageTitle } from "@/components/commons/PageTitle";
+import { PostList } from "@/components/commons/PostList";
+import { CustomHead } from "@/components/layouts/CustomHead";
+import { ResourceNotFound } from "@/components/page/error/ResourceNotFound";
 
 const TagPage: NextPage = () => {
   const router = useRouter();

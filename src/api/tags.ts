@@ -1,6 +1,8 @@
 import useSWR from "swr";
-import { axios } from "../lib/axiosInstance";
-import { MCMSPosts, MCMSTags } from "../types/API/post";
+import { axios } from "@/lib/axiosInstance";
+import { MCMSPosts, MCMSTags } from "@/types/API/post";
+
+// SSGでは使わない
 
 export const useGetTags = () => {
   return useSWR(`/tags`, (url) => {
