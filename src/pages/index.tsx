@@ -9,7 +9,6 @@ type Props = {
 };
 
 const Page: NextPage<Props> = ({ posts }) => {
-  console.log(posts);
   return (
     <>
       <PageTitle>記事一覧</PageTitle>
@@ -21,7 +20,6 @@ const Page: NextPage<Props> = ({ posts }) => {
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const data = await fetchAllPosts();
   const posts = data.contents;
-  console.log(posts);
   return { props: { posts }, revalidate: 180 };
 };
 

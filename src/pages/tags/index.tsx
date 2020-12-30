@@ -11,7 +11,6 @@ type Props = {
   error?: string;
 };
 const Page: NextPage<Props> = ({ tags, error }) => {
-  // const { data } = useGetTags();
   return (
     <>
       <CustomHead title="タグ一覧" />
@@ -19,12 +18,7 @@ const Page: NextPage<Props> = ({ tags, error }) => {
         <AiOutlineTags className="mr-2" />
         タグ一覧
       </PageTitle>
-      {tags ? (
-        <AllTagsList tags={tags} />
-      ) : (
-        // <Loading loading={!data} />
-        <p>{error}</p>
-      )}
+      {tags ? <AllTagsList tags={tags} /> : <p>{error}</p>}
     </>
   );
 };

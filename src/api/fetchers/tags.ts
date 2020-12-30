@@ -6,7 +6,6 @@ export const fetchAllTags = () => {
 };
 
 export const fetchTagByName = (tagName: string) => {
-  console.log(`/tags?filters=name[equals]${tagName}`);
   return axios
     .get<MCMSTags>(encodeURI(`/tags?filters=name[equals]${tagName}`))
     .then((res) => res.data);

@@ -17,19 +17,11 @@ type Props = {
 
 const TagPage: NextPage<Props> = ({ posts, error }) => {
   const router = useRouter();
-  console.log("error", error);
-  console.log("posts", posts);
-  console.log("isfallback", router.isFallback);
 
   if (!router.isFallback && !posts) {
     return <Error statusCode={404} />;
   }
   const { name } = router.query;
-  // const { data, error } = useGetPostsByTagName(name as string);
-
-  // if (error !== undefined) {
-  //   return <ResourceNotFound />;
-  // }
 
   if (!posts) {
     return <Loading loading={true} />;
@@ -42,7 +34,6 @@ const TagPage: NextPage<Props> = ({ posts, error }) => {
         <AiOutlineTag className="mr-2" />
         {name} の記事一覧
       </PageTitle>
-      {/* {data ? <PostList posts={data.contents} /> : <Loading loading={true} />} */}
       <PostList posts={posts} />
     </>
   );
@@ -57,7 +48,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<Props, { name: string }> = async ({
   params,
 }) => {
-  console.log(params);
   try {
     const data = await fetchTagByName(params?.name as string).then((data) => {
       return fetchPostByTag(data.contents[0].id);

@@ -16,15 +16,11 @@ import Error from "next/error";
 type Props = {
   post?: Post;
   highlightedContent?: string;
-  errors?: any;
+  error?: any;
 };
-const Page: NextPage<Props> = ({ post, highlightedContent, errors }) => {
+const Page: NextPage<Props> = ({ post, highlightedContent, error }) => {
   const router = useRouter();
-  console.log("errors", errors);
-  console.log("post", post);
-  console.log(highlightedContent);
-  console.log("isfallback", router.isFallback);
-
+  console.log(error);
   if (!router.isFallback && (!post || !highlightedContent)) {
     return <Error statusCode={404} />;
   }
@@ -84,7 +80,7 @@ export const getStaticProps: GetStaticProps<Props, { id: string }> = async ({
     return { props: { post, highlightedContent }, revalidate: 180 };
   } catch (err) {
     console.log(err);
-    return { props: { errors: err.message }, revalidate: 180 };
+    return { props: { error: err }, revalidate: 180 };
   }
 };
 

@@ -10,7 +10,6 @@ export const fetchPost = (id: number | string) => {
 };
 
 export const fetchPostByTag = (tagId: number | string) => {
-  console.log(`/posts?filters=tags[contains]${tagId}`);
   return axios
     .get<MCMSPosts>(`/posts?filters=tags[contains]${tagId}`)
     .then((res) => res.data);
