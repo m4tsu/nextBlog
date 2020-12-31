@@ -1,68 +1,49 @@
 import Link, { LinkProps } from "next/link";
 import { ReactElement, ReactNode } from "react";
+import qs from "query-string";
 
 // ----------------
 
-// 参考 https://twitter.com/Panda_Program/status/1339248778604232705
+// 参考 https://zenn.dev/panda_program/articles/typescript-nextjs-routing
 
-type A<T> = T extends `/${infer U}` ? U : never;
-type B<T> = T extends `${infer U}/${infer S}` ? U | B<S> : T;
-type C<T> = T extends `[${infer U}]` ? U : never;
+export type PathKey = keyof typeof Paths;
+export type Path = typeof Paths[PathKey];
 
-// ----------------
+type WithoutSlash<T> = T extends `/${infer U}` ? U : never;
+type Resource<T> = T extends `${infer U}/${infer S}` ? U | Resource<S> : T;
+type DynamicRoute<T> = T extends `[${infer U}]` ? U : never;
 
-type Params<T> = C<B<A<T>>>;
-
-type PathKey = keyof typeof Paths;
-type Path = typeof Paths[PathKey];
+type Params<T> = DynamicRoute<Resource<WithoutSlash<T>>>;
 type ParamKeys<T extends Path> = Params<T>;
+
 type PathParams<T extends Path> = {
   path: T;
   params?: { [K in ParamKeys<T>]: string | number };
 };
-type Args<T extends Path> = ParamKeys<T> extends never
+export type Args<T extends Path> = ParamKeys<T> extends never
   ? PathParams<T>
   : Required<PathParams<T>>;
 
-// ----------------
-
-// export function getPath<T extends Path>({path, params}: Args<T> ) {
-//   if (!params) {
-//     return path
-//   }
-
-//   return path.split('/').map(str => {
-//     const match = str.match(/\[(.*?)\]/)
-//     if (match) {
-//       const key = match[0]
-//       const trimed = key.substring(1, key.length - 1) as ParamKeys<typeof path>
-//       return params[trimed]
-//     }
-//     return str
-//   }).join('/')
-// }
-
-// ----------------
-
 export const TypedLink: <T extends Path>(
-  props: Args<T> & { children?: ReactNode; className?: string } & Omit<
-      LinkProps,
-      "href" | "as"
-    >
-) => ReactElement = ({ children, className, path, params, ...rest }) => {
-  let as: string;
-  const href = path;
+  props: Args<T> & {
+    children?: ReactNode;
+    className?: string;
+    query?: { [key: string]: string | number | string[] };
+    hash?: string;
+  } & Omit<LinkProps, "href">
+) => ReactElement = ({ children, className, params, ...rest }) => {
+  let path: string;
   if (!params) {
-    as = path;
+    path = rest.path;
   } else {
-    as = path
+    path = rest.path
       .split("/")
       .map((str) => {
         const match = str.match(/\[(.*?)\]/);
         if (match) {
           const key = match[0];
           const trimed = key.substring(1, key.length - 1) as ParamKeys<
-            typeof path
+            typeof rest.path
           >;
           return params[trimed];
         }
@@ -71,8 +52,12 @@ export const TypedLink: <T extends Path>(
       .join("/");
   }
 
+  const query = rest.query ? `?${qs.stringify(rest.query)}` : "";
+  const hash = rest.hash ? `#${rest.hash}` : "";
+  const href = path + query + hash;
+
   return (
-    <Link href={href} as={as} {...rest}>
+    <Link href={href} {...rest}>
       <a className={className}>{children}</a>
     </Link>
   );
@@ -84,8 +69,6 @@ export const Paths = {
   posts: "/",
   post: "/[id]",
   about: "/about",
-  // posts: "/posts",
-  // post: "/posts/[id]",
   tags: "/tags",
   tag: "/tags/[name]",
 } as const;
