@@ -1,6 +1,7 @@
 import { PageTitle } from "@/components/commons/PageTitle";
+import { NextPage } from "next";
 
-const AboutPage = (): JSX.Element => (
+const AboutPage: NextPage = () => (
   <>
     <PageTitle>自分とこのブログについて</PageTitle>
     <p>
@@ -8,6 +9,7 @@ const AboutPage = (): JSX.Element => (
       <strong>TypeScript</strong> / <strong>React</strong>
       でのフロントエンド開発に入りハマりはじめたWebアプリケーションエンジニアです。
     </p>
+    <p>直近の興味はフロントエンドのアーキテクチャです。</p>
     <br />
     <p>
       Next.jsの勉強がてらにブログを作ったので学んだことを書いていこうと思います。
