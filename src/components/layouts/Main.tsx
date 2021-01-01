@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { Container } from "./Container";
+import { Aside } from "@/components/layouts/Aside";
+import { Container } from "@/components/layouts/Container";
 
 export const Main: FC = ({ children }) => {
   return (
@@ -9,14 +10,7 @@ export const Main: FC = ({ children }) => {
           <div className="rounded p-5 w-full mr-2 bg-primary text-white border-white border-4">
             {children}
           </div>
-          <aside className="w-60 rounded bg-primary">
-            <div className="mb-1 border-b border-secondary p-5 bg-white text-secondary rounded">
-              <p className="font-bold mb-2">MY name</p>
-              <p className="break-words">
-                hogehohjgeohgeoheoghohhogeh hoghegh ghohge hoghoege
-              </p>
-            </div>
-          </aside>
+          <Aside />
         </div>
       </Container>
     </main>

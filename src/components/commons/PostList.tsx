@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Post } from "../../types/API/post";
+import { Post } from "@/types/API/post";
 import { PostListItem } from "./PostListItem";
 
 type Props = {

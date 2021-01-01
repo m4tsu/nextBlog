@@ -1,20 +1,33 @@
-import { NextPage } from "next";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { AiOutlineTag } from "react-icons/ai";
-import { useGetPostsByTagName } from "../../api/tags";
-import { Loading } from "../../components/commons/Loading";
-import { PageTitle } from "../../components/commons/PageTitle";
-import { PostList } from "../../components/commons/PostList";
-import { CustomHead } from "../../components/layouts/CustomHead";
-import { ResourceNotFound } from "../../components/page/error/ResourceNotFound";
+import { Loading } from "@/components/commons/Loading";
+import { PageTitle } from "@/components/commons/PageTitle";
+import { PostList } from "@/components/commons/PostList";
+import { CustomHead } from "@/components/layouts/CustomHead";
+import { fetchTagByName } from "@/api/fetchers/tags";
+import { fetchPostByTag } from "@/api/fetchers/posts";
+import { Post } from "@/types/API/post";
+import { ResourceNotFound } from "@/components/page/error/ResourceNotFound";
 
-const TagPage: NextPage = () => {
+type Props = {
+  posts?: Post[];
+  error?: any;
+};
+
+const Page: NextPage<Props> = ({ posts, error }) => {
   const router = useRouter();
-  const { name } = router.query;
-  const { data, error } = useGetPostsByTagName(name as string);
+  if (error) {
+    console.log(error);
+  }
 
-  if (error !== undefined) {
+  if (!router.isFallback && !posts) {
     return <ResourceNotFound />;
+  }
+  const { name } = router.query;
+
+  if (!posts) {
+    return <Loading loading={true} />;
   }
 
   return (
@@ -24,9 +37,31 @@ const TagPage: NextPage = () => {
         <AiOutlineTag className="mr-2" />
         {name} の記事一覧
       </PageTitle>
-      {data ? <PostList posts={data.contents} /> : <Loading loading={true} />}
+      <PostList posts={posts} />
     </>
   );
 };
 
-export default TagPage;
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths: any[] = [];
+
+  return { paths, fallback: true };
+};
+
+export const getStaticProps: GetStaticProps<Props, { name: string }> = async ({
+  params,
+}) => {
+  try {
+    const data = await fetchTagByName(params?.name as string).then((data) => {
+      return fetchPostByTag(data.contents[0].id);
+    });
+    const posts = data.contents;
+
+    return { props: { posts }, revalidate: 180 };
+  } catch (err) {
+    console.log(err);
+    return { props: { error: err.message }, revalidate: 180 };
+  }
+};
+
+export default Page;

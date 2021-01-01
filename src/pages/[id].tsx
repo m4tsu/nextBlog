@@ -1,47 +1,50 @@
-// import { GetStaticProps, GetStaticPaths } from 'next'
+import { GetStaticProps, GetStaticPaths } from "next";
 import styles from "./[id].module.scss";
 import cheerio from "cheerio";
 import hljs from "highlight.js";
 import "highlight.js/styles/hybrid.css";
 import { useRouter } from "next/router";
-import { useGetPost } from "../api/posts";
-import { toDate } from "../lib/moment";
-import { TagsList } from "../components/page/posts/TagsList";
-import { Loading } from "../components/commons/Loading";
-import { CustomHead } from "../components/layouts/CustomHead";
+import { toDate } from "@/lib/moment";
+import { TagsList } from "@/components/page/posts/TagsList";
+import { Loading } from "@/components/commons/Loading";
+import { CustomHead } from "@/components/layouts/CustomHead";
+import { NextPage } from "next";
+import { Post } from "@/types/API/post";
+import { fetchPost } from "@/api/fetchers/posts";
+import { ResourceNotFound } from "@/components/page/error/ResourceNotFound";
 
-const Post = () => {
+type Props = {
+  post?: Post;
+  highlightedContent?: string;
+  error?: string;
+};
+const Page: NextPage<Props> = ({ post, highlightedContent, error }) => {
   const router = useRouter();
-  const { id } = router.query;
-  const { data } = useGetPost(id as string);
-
-  if (!data) {
-    return <Loading loading={!data} />;
+  if (error) {
+    console.log(error);
   }
 
-  // コードブロックにハイライト用クラスを付与
-  const $ = cheerio.load(data.content);
-  $("pre code").each((_, elm) => {
-    const result = hljs.highlightAuto($(elm).text());
-    $(elm).html(result.value);
-    $(elm).addClass("hljs");
-  });
+  if (!router.isFallback && (!post || !highlightedContent)) {
+    return <ResourceNotFound />;
+  }
 
-  const highlightedContent = $.html();
+  if (!post || !highlightedContent) {
+    return <Loading loading={true} />;
+  }
 
   return (
     <>
-      <CustomHead title={data.title} />
+      <CustomHead title={post.title} />
       <div className="w-full border-b border-white pb-2 mb-4">
         <div className="flex flex-col">
           <h1 className="text-3xl mt-2 mb-2 font-bold flex items-center">
-            {data.title}
+            {post.title}
           </h1>
           <div className="flex flex-row items-center">
             <time className="flex-shrink-0 pr-2">
-              {toDate(data.publishedAt)}
+              {toDate(post.publishedAt)}
             </time>
-            <TagsList tags={data.tags} />
+            <TagsList tags={post.tags} />
           </div>
         </div>
       </div>
@@ -56,30 +59,32 @@ const Post = () => {
   );
 };
 
-export default Post;
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths: any[] = [];
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   // Get the paths we want to pre-render based on users
-//   const paths = sampleUserData.map((user) => ({
-//     params: { id: user.id.toString() },
-//   }))
+  return { paths, fallback: true };
+};
 
-//   // We'll pre-render only these paths at build time.
-//   // { fallback: false } means other routes should 404.
-//   return { paths, fallback: false }
-// }
+export const getStaticProps: GetStaticProps<Props, { id: string }> = async ({
+  params,
+}) => {
+  try {
+    const post = await fetchPost(params?.id as string);
 
-// // This function gets called at build time on server-side.
-// // It won't be called on client-side, so you can even do
-// // direct database queries.
-// export const getStaticProps: GetStaticProps = async ({ params }) => {
-//   try {
-//     const id = params?.id
-//     const item = sampleUserData.find((data) => data.id === Number(id))
-//     // By returning { props: item }, the StaticPropsDetail component
-//     // will receive `item` as a prop at build time
-//     return { props: { item } }
-//   } catch (err) {
-//     return { props: { errors: err.message } }
-//   }
-// }
+    // コードブロックのスタイリング
+    const $ = cheerio.load(post.content);
+    $("pre code").each((_, elm) => {
+      const result = hljs.highlightAuto($(elm).text());
+      $(elm).html(result.value);
+      $(elm).addClass("hljs code-block");
+    });
+    const highlightedContent = $.html();
+
+    return { props: { post, highlightedContent }, revalidate: 180 };
+  } catch (err) {
+    console.log(err);
+    return { props: { error: err.message }, revalidate: 180 };
+  }
+};
+
+export default Page;

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Paths, TypedLink } from "../../routes";
+import { Paths, TypedLink } from "@/routes";
 import { Container } from "./Container";
 
 export const HeaderNav: FC = () => {

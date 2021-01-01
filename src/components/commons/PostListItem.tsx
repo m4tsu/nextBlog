@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import { toDate } from "../../lib/moment";
-import { Post } from "../../types/API/post";
-import { TypedLink, Paths } from "../../routes";
-import { TagsList } from "../page/posts/TagsList";
+import { toDate } from "@/lib/moment";
+import { Post } from "@/types/API/post";
+import { TypedLink, Paths } from "@/routes";
+import { TagsList } from "@/components/page/posts/TagsList";
 
 type Props = {
   post: Post;
