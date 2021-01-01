@@ -76,7 +76,7 @@ export const getStaticProps: GetStaticProps<Props, { id: string }> = async ({
     $("pre code").each((_, elm) => {
       const result = hljs.highlightAuto($(elm).text());
       $(elm).html(result.value);
-      $(elm).addClass("hljs");
+      $(elm).addClass("hljs code-block");
     });
     const highlightedContent = $.html();
 

@@ -20,4 +20,7 @@
     background-color: #516c8d;
     @apply italic;
   }
+  p > code {
+    @apply bg-white text-primary px-1 rounded;
+  }
 }
