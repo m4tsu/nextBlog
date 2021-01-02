@@ -13,7 +13,6 @@ const App = ({ Component, pageProps }: AppProps) => {
     }
 
     const handleRouteChange = (path: string) => {
-      console.log(path);
       gtag.pageview(path);
     };
 
