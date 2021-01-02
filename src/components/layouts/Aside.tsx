@@ -18,7 +18,9 @@ export const Aside = () => {
             <p>なろ</p>
           </div>
           <div className="flex justify-center mb-1">
-            <AiFillTwitterCircle className="text-twitter text-3xl inline-block" />
+            <a href="https://twitter.com/neet_on_rails" target="_blank">
+              <AiFillTwitterCircle className="text-twitter text-3xl inline-block" />
+            </a>
           </div>
         </div>
 
