@@ -1,5 +1,7 @@
 import { NextPage } from "next";
 
-export const Page: NextPage = () => {
+const Page: NextPage = () => {
   return <h2>Not Found</h2>;
 };
+
+export default Page;
