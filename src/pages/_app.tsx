@@ -6,6 +6,7 @@ import Layout from "../components/layouts/Layout";
 import "../styles/global.css";
 
 const App = ({ Component, pageProps }: AppProps) => {
+  console.log(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID);
   const router = useRouter();
   useEffect(() => {
     if (!gtag.existsGaId) {
