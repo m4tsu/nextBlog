@@ -23,4 +23,8 @@
   p > code {
     @apply bg-white text-primary px-1 rounded;
   }
+  li {
+    list-style: disc;
+    list-style-position: inside;
+  }
 }
