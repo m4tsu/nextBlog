@@ -1,0 +1,35 @@
+#sideMenu {
+  height: 100%;
+  position: fixed;
+  right: -200px;
+  top: 50px;
+  width: 200px;
+  a {
+    color: white;
+  }
+  @apply bg-tertiary;
+}
+
+.enter {
+  transform: translateX(0);
+}
+.enterActive {
+  transform: translateX(-200px);
+  transition: transform 200ms ease-in-out;
+}
+.enterDone {
+  transform: translateX(-200px);
+  transition: transform 200ms ease-in-out;
+}
+
+.exit {
+  transform: translateX(-200px);
+}
+.exitActive {
+  transform: translateX(0);
+  transition: transform 200ms ease-in-out;
+}
+.exitDone {
+  transform: translateX(0);
+  transition: transform 200ms ease-in-out;
+}
