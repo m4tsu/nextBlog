@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { Post } from "@/types/API/post";
 import { PostListItem } from "./PostListItem";
 

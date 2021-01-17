@@ -1,3 +1,4 @@
+import React from "react";
 import { Paths, TypedLink } from "@/routes";
 
 export const ResourceNotFound = () => {

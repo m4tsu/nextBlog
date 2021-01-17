@@ -1,5 +1,5 @@
 import { TailSpin, useLoading } from "@agney/react-loading";
-import { FC } from "react";
+import React, { FC } from "react";
 
 type Props = {
   loading: boolean;
