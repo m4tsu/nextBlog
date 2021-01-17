@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { AiOutlineTag } from "react-icons/ai";
 import { Paths, TypedLink } from "@/routes";
 import { Tag } from "@/types/API/post";

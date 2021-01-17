@@ -1,3 +1,4 @@
+import React from "react";
 import { GetStaticProps, NextPage } from "next";
 import { PageTitle } from "@/components/commons/PageTitle";
 import { PostList } from "@/components/commons/PostList";

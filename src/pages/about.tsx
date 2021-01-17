@@ -1,3 +1,4 @@
+import React from "react";
 import { PageTitle } from "@/components/commons/PageTitle";
 import { NextPage } from "next";
 

@@ -1,3 +1,4 @@
+import React from "react";
 import Document, { Head, Main, NextScript, Html } from "next/document";
 import { existsGaId, GA_ID } from "@/lib/gtag";
 

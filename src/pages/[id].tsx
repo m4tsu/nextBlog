@@ -1,3 +1,4 @@
+import React from "react";
 import { GetStaticProps, GetStaticPaths } from "next";
 import styles from "./[id].module.scss";
 import cheerio from "cheerio";

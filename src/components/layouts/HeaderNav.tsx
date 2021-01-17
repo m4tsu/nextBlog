@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 import styles from "./HeaderNav.module.scss";
 import { Paths, TypedLink } from "@/routes";
 import { Container } from "./Container";

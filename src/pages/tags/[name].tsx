@@ -1,3 +1,4 @@
+import React from "react";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { AiOutlineTag } from "react-icons/ai";

@@ -1,3 +1,4 @@
+import React from "react";
 import { GetStaticProps, NextPage } from "next";
 import { AiOutlineTags } from "react-icons/ai";
 import { PageTitle } from "@/components/commons/PageTitle";
