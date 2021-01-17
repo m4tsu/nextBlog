@@ -8,6 +8,7 @@
     "start": "next start",
     "type-check": "tsc",
     "test": "jest",
+    "test:coverage": "jest --collect-coverage",
     "lint": "eslint src"
   },
   "dependencies": {

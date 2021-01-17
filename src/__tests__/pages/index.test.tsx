@@ -1,6 +1,6 @@
 import React from "react";
 import IndexPage from "@/pages/index";
-import { render } from "../test/testUtils";
+import { render } from "@/test/testUtils";
 import { Post } from "@/types/API/post";
 
 const posts: Post[] = [
